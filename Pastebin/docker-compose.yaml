@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  paste-tor:
+    container_name: 'paste-tor'
+    build: ./tor-proxy
+    networks:
+      - my_bridge_network
+
+  pastebin-app:
+    build:
+      context: .
+    volumes:
+      - ./result:/app/result
+      - ./config:/app/config
+    depends_on:
+      - paste-tor
+    links:
+      - paste-tor
+    environment:
+      - TOR_ADDRESS=paste-tor
+    networks:
+      - my_bridge_network
+
+networks:
+  my_bridge_network:
+    driver: bridge

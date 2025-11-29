@@ -1,0 +1,1 @@
+An Error InCountered [https://t.me/ransomblackbit30]. Reason: A wait of 85308 seconds is required (caused by ResolveUsernameRequest) 

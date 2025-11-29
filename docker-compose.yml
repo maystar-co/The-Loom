@@ -1,0 +1,84 @@
+version: '3'
+
+services:
+  # telegram-app:
+    # build: ./telegram
+    # volumes:
+      # - ./telegram/result:/app/result
+      # - ./telegram/config:/app/config
+    # restart: on-failure
+  
+  dis-app:
+    build: ./discord
+    volumes:
+      - ./discord/result:/app/result
+      - ./discord/config:/app/config
+    restart: on-failure
+  
+  pastebin-tor:
+    container_name: 'pastebin-tor'
+    build: ./Pastebin/tor-proxy
+    restart: on-failure
+
+  paste-app:
+    build: ./Pastebin
+    volumes:
+      - ./Pastebin/result:/app/result
+      - ./Pastebin/config:/app/config
+    depends_on:
+      - pastebin-tor
+    environment:
+      - TOR_ADDRESS=pastebin-tor
+    restart: on-failure
+  
+  apt-posts-tor:
+    container_name: 'apt-posts-tor'
+    build: ./apt_posts/tor-proxy
+    restart: on-failure
+  
+  apt-posts:
+    build: ./apt_posts
+    volumes:
+      - ./apt_posts/result:/app/result
+      - ./apt_posts/config:/app/config
+    restart: on-failure
+    depends_on:
+      - apt-posts-tor
+    environment:
+      - TOR_ADDRESS=apt-posts-tor
+
+  apt-groups-tor:
+    container_name: 'apt-groups-tor'
+    build: ./apt_groups/tor-proxy
+    restart: on-failure
+
+  apt-groups:
+    build: ./apt_groups
+    volumes:
+      - ./apt_groups/result:/app/result
+    restart: on-failure
+    depends_on:
+      - apt-groups-tor
+    environment:
+      - TOR_ADDRESS=apt-groups-tor
+
+  reddit-app:
+    build: ./reddit
+    volumes:
+      - ./reddit/result:/app/result
+      - ./reddit/config:/app/config
+    restart: on-failure
+  
+  twitter-app:
+    build: ./twitter
+    volumes:
+      - ./twitter/result:/app/result
+      - ./twitter/config:/app/config
+    restart: on-failure
+  
+  crack-media-app:
+    build: ./crackingMafia
+    volumes:
+      - ./crackingMafia/result:/app/result
+      - ./crackingMafia/config:/app/config
+    restart: on-failure

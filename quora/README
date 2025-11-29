@@ -1,0 +1,6 @@
+To run the project:
+
+1. Build the image using : sudo docker build -t quora-scraper .
+2. Run docker compose up -d
+3. The result is stored in a json format in a file named sensitive_info.json
+ 

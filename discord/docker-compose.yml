@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  discord-app:
+    build:
+      context: .
+    volumes:
+      - ./result:/app/result
+      - ./config:/app/config
+    restart: always
